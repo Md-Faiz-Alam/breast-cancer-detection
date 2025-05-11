@@ -11,17 +11,14 @@ This project is a full-stack machine learning application that predicts whether 
 
 ## 📂 Project Structure
 
-breast_cancer_detection/
-├── static/ # CSS or images (if used)
-├── templates/
-│ └── index.html # HTML form and result page
-├── model/
-│ └── model.pkl # Trained ML model
-├── app.py # Flask application
-├── notebook.ipynb # Data analysis and model building
-├── requirements.txt # Python dependencies
-├── .gitignore # Ignored files
-└── README.md # Project documentation
+- `data/`: Contains datasets used for training/testing.
+- `model/`: Stores the trained ML model(s).
+- `reports/`: Includes evaluation metrics, graphs, and prediction.
+- `statics/`: Frontend static assets (CSS).
+- `templates/`: HTML templates used by Flask for rendering.
+- `app.py`: Flask application that connects frontend with the ML model.
+- `requirements.txt`: List of required Python libraries.
+- `README.md`: Project overview and instructions.
 
 
 ---
@@ -37,7 +34,7 @@ breast_cancer_detection/
 
 ## 🧠 Machine Learning Model
 
-- **Algorithm Used**: Logistic Regression / SVM / Decision Tree *(choose the correct one you used)*
+- **Algorithm Used**: Logistic Regression / Random Forest
 - **Preprocessing**:
   - StandardScaler for normalization
   - Train-test split (80/20)
@@ -45,7 +42,7 @@ breast_cancer_detection/
   - Accuracy Score
   - Confusion Matrix
   - ROC-AUC Curve
-- **Final Accuracy**: *97.3%* on test data
+- **Final Accuracy**: *98%* on test data
 
 ---
 
@@ -70,7 +67,7 @@ Built using **Flask**, this app allows users to input 30 numerical values and ge
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/breast-cancer-detection.git
+git clone https://github.com/Md-Faiz_Alam/breast-cancer-detection.git
 cd breast-cancer-detection
 
 # Create a virtual environment (optional but recommended)
