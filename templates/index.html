@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breast Cancer Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>BREAST CANCER DETECTION</h1>
+      <p>An advanced AI model for detecting malignant and benign breast tumors.</p>
+      <a class="cta-button" href="#predict">GET STARTED</a>
+    </div>
+    <div class="hero-img">
+      <img src="/static/images/hero_baner.jpg" alt="Medical scan" />
+    </div>
+  </section>
+
+  
+  <section class="section white" id="how">
+    <h2>HOW IT WORKS</h2>
+    <div class="grid-two">
+      <div class="info-box">
+        <span class="icon">🔍</span>
+        <p>The model analyzes 30 input features from patient data to classify tumor type.</p>
+      </div>
+      <div class="info-box">
+        <img src="/static/images/brain.jpg" alt="AI Brain" style="max-width: 300px;" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PREDICTION FORM SECTION -->
+  <section class="section white" id="predict">
+    <h2>Predict Tumor Type</h2>
+    <form id="predictForm" action="/predict" method="POST" class="contact-form">
+      <input type="number" step="any" name="mean_radius" placeholder="Mean Radius" required />
+      <input type="number" step="any" name="mean_texture" placeholder="Mean Texture" required />
+      <input type="number" step="any" name="mean_perimeter" placeholder="Mean Perimeter" required />
+      <input type="number" step="any" name="mean_area" placeholder="Mean Area" required />
+      <input type="number" step="any" name="mean_smoothness" placeholder="Mean Smoothness" required />
+      <input type="number" step="any" name="mean_compactness" placeholder="Mean Compactness" required />
+      <input type="number" step="any" name="mean_concavity" placeholder="Mean Concavity" required />
+      <input type="number" step="any" name="mean_concave_points" placeholder="Mean Concave Points" required />
+      <input type="number" step="any" name="mean_symmetry" placeholder="Mean Symmetry" required />
+      <input type="number" step="any" name="mean_fractal_dimension" placeholder="Mean Fractal Dimension" required />
+      
+      <input type="number" step="any" name="radius_error" placeholder="Radius Error" required />
+      <input type="number" step="any" name="texture_error" placeholder="Texture Error" required />
+      <input type="number" step="any" name="perimeter_error" placeholder="Perimeter Error" required />
+      <input type="number" step="any" name="area_error" placeholder="Area Error" required />
+      <input type="number" step="any" name="smoothness_error" placeholder="Smoothness Error" required />
+      <input type="number" step="any" name="compactness_error" placeholder="Compactness Error" required />
+      <input type="number" step="any" name="concavity_error" placeholder="Concavity Error" required />
+      <input type="number" step="any" name="concave_points_error" placeholder="Concave Points Error" required />
+      <input type="number" step="any" name="symmetry_error" placeholder="Symmetry Error" required />
+      <input type="number" step="any" name="fractal_dimension_error" placeholder="Fractal Dimension Error" required />
+      
+      <input type="number" step="any" name="worst_radius" placeholder="Worst Radius" required />
+      <input type="number" step="any" name="worst_texture" placeholder="Worst Texture" required />
+      <input type="number" step="any" name="worst_perimeter" placeholder="Worst Perimeter" required />
+      <input type="number" step="any" name="worst_area" placeholder="Worst Area" required />
+      <input type="number" step="any" name="worst_smoothness" placeholder="Worst Smoothness" required />
+      <input type="number" step="any" name="worst_compactness" placeholder="Worst Compactness" required />
+      <input type="number" step="any" name="worst_concavity" placeholder="Worst Concavity" required />
+      <input type="number" step="any" name="worst_concave_points" placeholder="Worst Concave Points" required />
+      <input type="number" step="any" name="worst_symmetry" placeholder="Worst Symmetry" required />
+      <input type="number" step="any" name="worst_fractal_dimension" placeholder="Worst Fractal Dimension" required />
+      
+      <!-- Model Selection Dropdown -->
+      <label>Select Model:</label>
+      <select name="model_choice" required>
+        <option value="Logistic Regression">Logistic Regression</option>
+        <option value="Random Forest">Random Forest</option>
+      </select>
+      <div class="button-container">
+
+      <button type="button" class="left-btn" onclick="fillSample()">Fill Sample Data</button>
+      <button type="submit" class="center-btn">Predict</button>
+      <button type="button" class="right-btn" onclick="resetForm()">Clear Data</button>
+      </div>
+    </form>
+  
+    <div id="prediction-result"></div>
+  </section>
+
+  <script>
+    function fillSample() {
+      const samples = [
+        [13.03, 18.42, 82.61, 523.8, 0.08983, 0.03766, 0.02562, 0.02923, 0.1467, 0.05863, 0.1839, 2.342, 1.17, 14.16, 0.004352, 0.004899, 0.01343, 0.01164, 0.02671, 0.001777, 13.3, 22.81, 84.46, 545.9, 0.09701, 0.04619, 0.04833, 0.05013, 0.1987, 0.06169],
+        [17.99, 10.38, 122.8, 1001.0, 0.1184, 0.2776, 0.3001, 0.1471, 0.2419, 0.07871, 1.095, 0.9053, 8.589, 153.4, 0.006399, 0.04904, 0.05373, 0.01587, 0.03003, 0.006193, 25.38, 17.33, 184.6, 2019.0, 0.1622, 0.6656, 0.7119, 0.2654, 0.4601, 0.1189], // Sample 1
+        [15.1, 13.5, 120.0, 1024.5, 0.1000, 0.2500, 0.2500, 0.1500, 0.2000, 0.07500, 1.1000, 0.8000, 9.0000, 160.0, 0.005000, 0.04000, 0.05000, 0.02000, 0.02500, 0.005000, 22.00, 16.50, 180.00, 2000.00, 0.1500, 0.6000, 0.7000, 0.2200, 0.4000, 0.1100], // Sample 2
+        [12.45, 15.7, 82.57, 476.5, 0.1076, 0.06791, 0.04552, 0.03161, 0.1967, 0.0631, 0.3344, 1.21, 2.225, 27.19, 0.007514, 0.01291, 0.02071, 0.0135, 0.01557, 0.004259, 14.5, 20.49, 96.09, 630.5, 0.1312, 0.1192, 0.1648, 0.1036, 0.3014, 0.0875,],
+        [14.23, 15.66, 92.48, 674.2, 0.09278, 0.07235, 0.2093, 0.07633, 0.2069, 0.05853, 0.4691, 0.6675, 5.826, 105.9, 0.009533, 0.02951, 0.02268, 0.01068, 0.03672, 0.004239, 17.83, 18.07, 112.5, 786.5, 0.1276, 0.5451, 0.6418, 0.2637, 0.3883, 0.09023],
+        [14.52, 19.74, 93.43, 750.2, 0.09527, 0.1544, 0.2333, 0.07888, 0.2419, 0.06147, 0.5695, 0.7004, 6.021, 120.8, 0.008642, 0.04294, 0.02719, 0.008543, 0.02748, 0.005377, 18.76, 19.65, 118.2, 902.1, 0.1565, 0.6101, 0.6658, 0.2763, 0.4015, 0.09784],
+        [13.83, 12.99, 86.71, 614.2, 0.08672, 0.1123, 0.1878, 0.07727, 0.2045, 0.06412, 0.3987, 0.6371, 4.915, 95.51, 0.01108, 0.03518, 0.01781, 0.009471, 0.03845, 0.005269, 16.58, 15.35, 100.8, 723.8, 0.1236, 0.5102, 0.6173, 0.2585, 0.3704, 0.08344],
+        [17.12, 14.25, 107.5, 866.1, 0.1054, 0.1254, 0.2386, 0.09451, 0.2198, 0.06084, 0.4703, 0.7246, 6.267, 120.2, 0.007128, 0.02892, 0.02442, 0.008579, 0.02712, 0.004376, 18.56, 18.22, 118.5, 930.3, 0.1514, 0.5958, 0.6712, 0.2731, 0.3973, 0.09356],
+        [15.27, 11.43, 92.47, 690.3, 0.08035, 0.09347, 0.2086, 0.07672, 0.1892, 0.05635, 0.4523, 0.6084, 5.203, 98.99, 0.01044, 0.02971, 0.02294, 0.009764, 0.02891, 0.004219, 16.76, 14.98, 104.7, 764.2, 0.1289, 0.5217, 0.6281, 0.2657, 0.3835, 0.08823],
+        [18.93, 20.33, 120.8, 1098.0, 0.1159, 0.1495, 0.2698, 0.09718, 0.2416, 0.06542, 0.4738, 0.7602, 6.157, 131.5, 0.008125, 0.04276, 0.02983, 0.008749, 0.02803, 0.005171, 19.92, 20.22, 125.3, 1056.0, 0.1456, 0.6342, 0.7039, 0.2805, 0.4112, 0.09248],
+        [15.86, 14.89, 96.57, 742.9, 0.08758, 0.1198, 0.2216, 0.08053, 0.2013, 0.06281, 0.5121, 0.6543, 5.637, 109.5, 0.009302, 0.03167, 0.02318, 0.01016, 0.03206, 0.00497, 17.02, 17.49, 111.4, 827.4, 0.1342, 0.5674, 0.6515, 0.2742, 0.3951, 0.09183],
+        [13.69, 11.13, 87.28, 595.0, 0.08783, 0.1103, 0.1857, 0.07352, 0.1894, 0.06003, 0.4391, 0.6499, 5.056, 94.71, 0.01065, 0.03023, 0.01961, 0.008426, 0.03564, 0.00485, 15.51, 14.71, 98.61, 704.3, 0.1255, 0.5067, 0.6103, 0.2573, 0.3769, 0.08557],
+        [14.64, 17.08, 96.98, 726.3, 0.09002, 0.1304, 0.2112, 0.08273, 0.2057, 0.06219, 0.4559, 0.6902, 5.428, 103.5, 0.01075, 0.03378, 0.02281, 0.009693, 0.02977, 0.005222, 16.62, 16.88, 107.3, 771.2, 0.1364, 0.5401, 0.6305, 0.2684, 0.3825, 0.08974],
+        [18.21, 19.24, 114.8, 1011.0, 0.1145, 0.1352, 0.2643, 0.09367, 0.2234, 0.06161, 0.4926, 0.7312, 5.822, 114.7, 0.007859, 0.03101, 0.02534, 0.01024, 0.02848, 0.004502, 19.34, 18.88, 118.6, 946.4, 0.1461, 0.6072, 0.6872, 0.2761, 0.4001, 0.09431],
+        [15.02, 13.67, 95.21, 722.0, 0.08566, 0.1177, 0.2009, 0.07893, 0.1899, 0.05892, 0.4469, 0.6254, 5.066, 100.5, 0.01001, 0.03058, 0.02208, 0.009035, 0.02844, 0.004051, 16.48, 15.93, 104.1, 755.0, 0.1303, 0.5227, 0.6142, 0.2674, 0.3798, 0.08644],
+        [19.21, 16.48, 118.9, 1005.0, 0.1234, 0.1421, 0.2658, 0.09944, 0.2219, 0.06033, 0.4891, 0.7363, 5.849, 112.2, 0.007278, 0.03221, 0.02739, 0.009518, 0.02896, 0.004642, 20.03, 19.08, 123.3, 1011.0, 0.1499, 0.6132, 0.6914, 0.2787, 0.4022, 0.09484],
+        [15.56, 18.77, 103.9, 799.5, 0.1015, 0.1425, 0.2389, 0.08681, 0.2144, 0.06317, 0.4792, 0.7146, 5.586, 105.7, 0.008923, 0.03556, 0.02518, 0.01059, 0.03129, 0.004745, 17.57, 17.95, 110.1, 813.8, 0.1389, 0.5632, 0.6503, 0.2713, 0.3859, 0.09068],
+        [13.54,14.36,87.46,566.3,0.09779,0.08129,0.06664,0.04781,0.1885,0.05766,0.2699,0.7886,2.058,23.56,0.008462,0.0146,0.02387,0.01315,0.0198,0.0023,15.11,19.26,99.7,711.2,0.144,0.1773,0.239,0.1288,0.2977,0.07259],
+        [13.08,15.71,85.63,520,0.1075,0.127,0.04568,0.0311,0.1967,0.06811,0.1852,0.7477,1.383,14.67,0.004097,0.01898,0.01698,0.00649,0.01678,0.002425,14.5,20.49,96.09,630.5,0.1312,0.2776,0.189,0.07283,0.3184,0.08183]
+      ];
+  
+      const randomSample = samples[Math.floor(Math.random() * samples.length)];
+  
+      document.querySelectorAll('input[type=number]').forEach((el, i) => {
+        el.value = randomSample[i];
+      });
+    }
+    function resetForm() {
+            document.querySelectorAll('input[type=number]').forEach(el => {
+                el.value = ''; 
+            });
+        }
+  </script>
+  
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <h2>FEATURES</h2>
+    <div class="grid-three">
+      <div class="card">
+        <span class="icon">✔️</span>
+        <h3>Accurate Results</h3>
+        <p>Provides precise tumor classifications.</p>
+      </div>
+      <div class="card">
+        <span class="icon">🧠</span>
+        <h3>AI Technology</h3>
+        <p>Utilizes state-of-the-art machine learning.</p>
+      </div>
+      <div class="card">
+        <span class="icon">⏱️</span>
+        <h3>Efficient Detection</h3>
+        <p>Delivers quick analysis of diagnostic data.</p>
+      </div>
+    </div>
+  </section>
+
+<!-- FAQ -->
+<section class="section white">
+  <h2>FREQUENTLY ASKED QUESTIONS</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-question"><strong>Who can use this model?</strong></div>
+      <div class="faq-answer">Project purpose only</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question"><strong>How is my data used?</strong></div>
+      <div class="faq-answer">Data is not stored or shared.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question"><strong>Can the model be accessed remotely?</strong></div>
+      <div class="faq-answer">Yes, it is web-based.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question"><strong>What is accuracy of the model?</strong></div>
+      <div class="faq-answer">Over 95% on our benchmark tests.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const questions = document.querySelectorAll('.faq-question');
+
+  questions.forEach(question => {
+    question.addEventListener('click', () => {
+      question.classList.toggle('active');
+      const answer = question.nextElementSibling;
+      answer.classList.toggle('active');
+    });
+  });
+</script>
+
+
+  <!-- CONTACT -->
+  <section class="section">
+    <h2>CONTACT</h2>
+    <p>Email us at: <a href="mailto:contact@breastai.com">contact@breastai.com</a></p>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" rows="4" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+</footer>
+  
+ <script>
+  document.getElementById('predictForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/predict', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.text(); 
+      document.getElementById('prediction-result').innerHTML = result;
+
+    } catch (error) {
+      console.error('Prediction failed:', error);
+      document.getElementById('prediction-result').innerText = "Error occurred during prediction.";
+    }
+  });
+ </script>
+
+  <footer>
+    <p>© 2025 Breast Cancer Detection | Empowering early diagnosis through AI</p>
+
+</body>
+</html>
