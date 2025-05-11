@@ -34,7 +34,7 @@ This project is a full-stack machine learning application that predicts whether 
 
 ## 🧠 Machine Learning Model
 
-- **Algorithm Used**: Logistic Regression / SVM / Decision Tree *(choose the correct one you used)*
+- **Algorithm Used**: Logistic Regression / Random Forest
 - **Preprocessing**:
   - StandardScaler for normalization
   - Train-test split (80/20)
@@ -42,7 +42,7 @@ This project is a full-stack machine learning application that predicts whether 
   - Accuracy Score
   - Confusion Matrix
   - ROC-AUC Curve
-- **Final Accuracy**: *97.3%* on test data
+- **Final Accuracy**: *98%* on test data
 
 ---
 
@@ -67,7 +67,7 @@ Built using **Flask**, this app allows users to input 30 numerical values and ge
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/breast-cancer-detection.git
+git clone https://github.com/Md-Faiz_Alam/breast-cancer-detection.git
 cd breast-cancer-detection
 
 # Create a virtual environment (optional but recommended)
